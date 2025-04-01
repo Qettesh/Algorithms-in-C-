@@ -50,5 +50,11 @@ namespace Algorithms_Suite_Lib.Tests
         {
             RunTestsSortAlgorithm(Sort.BubbleSort);
         }
+
+        [Test]
+        public void InsertionSort_ValidInput_SortedOutput()
+        {
+            RunTestsSortAlgorithm(InsertionSort.Insertion_Sort);
+        }
     }
 }
