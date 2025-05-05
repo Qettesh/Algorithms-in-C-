@@ -1,108 +1,98 @@
-﻿
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AlgorithmsExercises
+namespace Algorithm_Suite_Lib
 {
     public class SingleLinkedList<T>
     {
-        public Node<T>? First { get; private set; }
-        public Node<T>? Last { get; private set; }
+        public FuzzyNode<T> Head { get; private set; }
+        public FuzzyNode<T> Tail { get; private set; }
 
         public int Count { get; private set; }
 
         public void AddFirst(T value)
         {
-            AddFirst(new Node<T>(value));
+            AddFirst(new FuzzyNode<T>(value));
         }
 
-        private void AddFirst(Node<T> node)
+        private void AddFirst(FuzzyNode<T> node)
         {
-            //save current head
-            Node<T>? tmp = First;
+            //save the current head
+            FuzzyNode<T> tmp = Head;
 
-            First = node;
+            Head = node;
 
-            //Shift the former first
-            First.Next = tmp;
+            //shift the former head
+            Head.Next = tmp;
 
-            Count++;                                            //Increment counter
 
-            //Special case
-            if (Count == 1)
+            //increment counter
+            Count++;
+
+            if(Count == 1)
             {
-                Last = First;
-            }            
+                Tail = Head;
+            }
         }
 
-        //Implementation of add last method
         public void AddLast(T value)
         {
-            AddLast(new Node<T>(value));
-            
-                
+            AddLast(new FuzzyNode<T>(value));
         }
 
-        private void AddLast(Node<T> node)                      //If the list is empty, assign the node being added to first and last, since list has only one node.
+        public void AddLast(FuzzyNode<T> node)
         {
             if (IsEmpty)
-            
-                First = node;    
-            else                                                //IF the list is not empty, the node pointing to the tail, should point to the new node.
-            
-                Last.Next = node;                               
-
-            Last = node;                                        //Adds a new node
-
+           
+                Head = node;               
+            else              
+                Tail.Next = node;                          //Adds new node
+              
+            Tail = node;
 
             Count++;
         }
 
-        //Implement remove first method
-        public void removeFirst()
+        public void RemoveFirst()
         {
             if (IsEmpty)
                 throw new InvalidOperationException();
 
-            First = First.Next;                                 //Ensures nothing references the former first node. The former first is garbage collected and the first points to the node which follows the former first.
+            Head = Head.Next;
             if (Count == 1)
-                Last = null;
+                Tail = null;
 
             Count--;
         }
 
-        //Implement remove last method
-        public void removeLast()
+        public void RemoveLast()
         {
             if (IsEmpty)
                 throw new InvalidOperationException();
 
-            //When there are no nodes, First and Last are null    
             if (Count == 1)
-                First = Last = null;
+            {
+                Head = Tail = null;
+            }
 
             else
             {
-                // find penultimate node
-                var current = First;
-                while (current.Next != Last)
+                //find the penultimate node
+                var current = Head;
+                while(current.Next != Tail)
                 {
                     current = current.Next;
                 }
 
                 current.Next = null;
-                Last = current;
+                Tail = current;
             }
-
             Count--;
         }
 
-        internal IEnumerator<T> GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
         public bool IsEmpty => Count == 0;
-        
     }
 }
