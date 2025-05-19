@@ -1,1 +1,1 @@
-Base Binary Search ST algorithm.
+Algorithm suite
